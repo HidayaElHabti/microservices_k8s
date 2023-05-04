@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: create-service-app
+  labels:
+    app: create-service-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app : create-service-app
+  template:
+    metadata:
+      labels:
+        app: create-service-app
+    spec:
+      containers:
+      - name: create-service-app
+        image: hadouya24/create-service:0.0.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 9020
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  create-service-svc
+spec:
+  selector:
+    app:  create-service-app
+  ports:
+  - port:  80
+    targetPort:  9020

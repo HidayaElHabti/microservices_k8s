@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: getall-service-app
+  labels:
+    app: getall-service-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app : getall-service-app
+  template:
+    metadata:
+      labels:
+        app: getall-service-app
+    spec:
+      containers:
+      - name: getall-service-app
+        image: hadouya24/getall-service:0.0.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 9022
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  getall-service-svc
+spec:
+  selector:
+    app:  getall-service-app
+  ports:
+  - port:  80
+    targetPort:  9022
